@@ -1,0 +1,44 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1{
+    background-color:aqua;
+    color: #fff;
+    padding: 1rem;
+    margin: 0;
+}
+
+.botones{
+    margin: 2rem 0;
+}
+button{
+    font-size: 1.2rem;
+    margin: 0 1rem;
+    padding: 0.8rem 1.5rem;
+    background-color: aqua;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover{
+    background-color: #000;
+}
+  
+#btnSalir{
+    background-color: #E74C3C;
+}
+  
+#btnSalir:hover{
+    background-color: #C0392B;
+}
+  
+.mensaje{
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    color: #333;
+}
