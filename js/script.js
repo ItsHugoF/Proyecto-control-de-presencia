@@ -22,7 +22,7 @@ btnFichar.addEventListener('click', () => {
                   <ul>
                     <li>Latitud: <strong>${latitud.toFixed(6)}</strong></li>
                     <li>Longitud: <strong>${longitud.toFixed(6)}</strong></li>
-                    <li>Precisión: +${Math.round(accuracy)} metros</li>
+                    <li>Precisión: +${Math.round(precision)} metros</li>
                   </ul>
                   <a href="${mapsLink}" target="_blank">Ver ubicación en Google Maps</a>
                 `;
