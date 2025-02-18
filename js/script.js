@@ -1,7 +1,7 @@
 const btnFichar = document.getElementById('btnFichar');
 const btnSalir = document.getElementById('btnSalir');
 const mensaje = document.getElementById('mensaje');
-
+const statusIcon = document.getElementById('statusIcon');
 
 function setSatelliteIcon(color) {
   statusIcon.src = `3_${color}.webp.jpg`;
@@ -16,10 +16,20 @@ btnFichar.addEventListener('click', () => {
                 const latitud = position.coords.latitude;
                 const longitud = position.coords.longitude;
                 const precision = position.coords.accuracy; 
+                const mapsLink = `https://www.google.com/maps/search/?api=1&query=${latitud},${longitud}`
                 mensaje.textContent = `Estas fichando desde latitud: ${latitud}, longitud: ${longitud} (Precisión: ±${precision} metros)`;
-                if (accuracy < 50) {
+                mensaje.innerHTML = `
+                  <p>Estás fichando en:</p>
+                  <ul>
+                    <li>Latitud: <strong>${latitud.toFixed(6)}</strong></li>
+                    <li>Longitud: <strong>${longitud.toFixed(6)}</strong></li>
+                    <li>Precisión: +${Math.round(accuracy)} metros</li>
+                  </ul>
+                  <a href="${mapsLink}" target="_blank">Ver ubicación en Google Maps</a>
+                `;
+                if (precision < 50) {
                   setSatelliteIcon('green');
-                } else if (accuracy < 500) {
+                } else if (precision < 500) {
                   setSatelliteIcon('yellow');
                 } else {
                   setSatelliteIcon('red');
