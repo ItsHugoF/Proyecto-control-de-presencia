@@ -27,11 +27,11 @@ btnFichar.addEventListener('click', () => {
                   <a href="${mapsLink}" target="_blank">Ver ubicación en Google Maps</a>
                 `;
                 if (precision < 50) {
-                  setSatelliteIcon('green');
+                  setSatelliteIcon('verde');
                 } else if (precision < 500) {
-                  setSatelliteIcon('yellow');
+                  setSatelliteIcon('amarillo');
                 } else {
-                  setSatelliteIcon('red');
+                  setSatelliteIcon('rojo');
                 }
             },
             (error) => 
