@@ -4,7 +4,7 @@ const mensaje = document.getElementById('mensaje');
 
 
 function setSatelliteIcon(color) {
-  statusIcon.src = `img/3.webp${color}.png`;
+  statusIcon.src = `3_${color}.webp.jpg`;
 }
 
 btnFichar.addEventListener('click', () => {
