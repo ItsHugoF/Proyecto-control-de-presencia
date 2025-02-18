@@ -2,6 +2,11 @@ const btnFichar = document.getElementById('btnFichar');
 const btnSalir = document.getElementById('btnSalir');
 const mensaje = document.getElementById('mensaje');
 
+
+function setSatelliteIcon(color) {
+  statusIcon.src = `img/3.webp${color}.png`;
+}
+
 btnFichar.addEventListener('click', () => {
     if('geolocation' in navigator) 
     {
@@ -12,6 +17,13 @@ btnFichar.addEventListener('click', () => {
                 const longitud = position.coords.longitude;
                 const precision = position.coords.accuracy; 
                 mensaje.textContent = `Estas fichando desde latitud: ${latitud}, longitud: ${longitud} (Precisión: ±${precision} metros)`;
+                if (accuracy < 50) {
+                  setSatelliteIcon('green');
+                } else if (accuracy < 500) {
+                  setSatelliteIcon('yellow');
+                } else {
+                  setSatelliteIcon('red');
+                }
             },
             (error) => 
             {
