@@ -17,7 +17,6 @@ btnFichar.addEventListener('click', () => {
                 const longitud = position.coords.longitude;
                 const precision = position.coords.accuracy; 
                 const mapsLink = `https://www.google.com/maps/search/?api=1&query=${latitud},${longitud}`
-                mensaje.textContent = `Estas fichando desde latitud: ${latitud}, longitud: ${longitud} (Precisión: ±${precision} metros)`;
                 mensaje.innerHTML = `
                   <p>Estás fichando en:</p>
                   <ul>
