@@ -1,44 +1,100 @@
-body{
-    font-family: Arial, Helvetica, sans-serif;
+/* Reset básico */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Estilos base de la página */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* Fondo blanco */
+    color: #000000;           /* Texto negro */
     text-align: center;
-}
-
-h1{
-    background-color:aqua;
-    color: #fff;
     padding: 1rem;
-    margin: 0;
-}
-
-.botones{
-    margin: 2rem 0;
-}
-button{
-    font-size: 1.2rem;
-    margin: 0 1rem;
-    padding: 0.8rem 1.5rem;
-    background-color: aqua;
-    color: #fff;
+  }
+  
+  /* Cabecera con logo + título */
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .logo {
+    width: 250px;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: #000000; /* Texto negro */
+  }
+  
+  /* Contenedor del icono */
+  .icon-container {
+    margin: 1rem 0;
+  }
+  
+  /* Icono de Font Awesome */
+  #statusIcon {
+    font-size: 3rem;
+  }
+  
+  /* Clases de color para el icono de satélite */
+  .icono-verde {
+    color: green; 
+  }
+  .icono-amarillo {
+    color: goldenrod;
+  }
+  .icono-rojo {
+    color: red;
+  }
+  
+  /* Botones */
+  .botones {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .botones button {
+    font-size: 1.1rem;
+    padding: 1rem;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-button:hover{
-    background-color: #000;
-}
+    background-color: #0056b3; /* Azul corporativo - ajusta a tu azul */
+    color: #ffffff;           /* Texto blanco */
+  }
   
-#btnSalir{
-    background-color: #E74C3C;
-}
+  /* Hover de los botones */
+  .botones button:hover {
+    background-color: #003f86; /* Un tono más oscuro del azul */
+  }
   
-#btnSalir:hover{
-    background-color: #C0392B;
-}
+  /* Contenedor del mensaje */
+  .mensaje {
+    background-color: #f8f8f8; /* Blanco muy suave, para resaltar el mensaje */
+    padding: 1rem;
+    border-radius: 5px;
+    min-height: 80px;
+    margin: 0 auto;
+    max-width: 600px; /* Límites para que se vea mejor en pantallas grandes */
+  }
   
-.mensaje{
-    margin-top: 2rem;
-    font-size: 1.1rem;
-    color: #333;
-}
+  @media (min-width: 600px) {
+    h1 {
+      font-size: 2.2rem;
+    }
+    .botones button {
+      font-size: 1.2rem;
+    }
+  }
+  

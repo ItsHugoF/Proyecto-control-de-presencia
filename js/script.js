@@ -3,8 +3,9 @@ const btnSalir = document.getElementById('btnSalir');
 const mensaje = document.getElementById('mensaje');
 const statusIcon = document.getElementById('statusIcon');
 
-function setSatelliteIcon(color) {
-  statusIcon.src = `3_${color}.webp.jpg`;
+function setIconoColor(color) {
+  statusIcon.classList.remove('icono-verde','icono-amarillo', 'icono-rojo');
+  statusIcon.classList.add(`icono-${color}`);
 }
 
 btnFichar.addEventListener('click', () => {
@@ -27,11 +28,11 @@ btnFichar.addEventListener('click', () => {
                   <a href="${mapsLink}" target="_blank">Ver ubicación en Google Maps</a>
                 `;
                 if (precision < 50) {
-                  setSatelliteIcon('verde');
+                  setIconoColor('verde');
                 } else if (precision < 500) {
-                  setSatelliteIcon('amarillo');
+                  setIconoColor('amarillo');
                 } else {
-                  setSatelliteIcon('rojo');
+                  setIconoColor('rojo');
                 }
             },
             (error) => 
@@ -56,10 +57,12 @@ btnFichar.addEventListener('click', () => {
     } else 
     {
         mensaje.textContent = "La geolocalización no está soportada en este navegador.";
+        setIconoColor('rojo');
     }
 });
 
 
 btnSalir.addEventListener('click', () => {
     mensaje.textContent = "Has salido";
+    setIconColor('rojo');
 })
