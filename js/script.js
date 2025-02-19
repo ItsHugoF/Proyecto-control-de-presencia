@@ -8,6 +8,16 @@ function setIconoColor(color) {
   statusIcon.classList.add(`icono-${color}`);
 }
 
+const fechaHoraElemento = document.getElementById('fechaHora');
+function actualizarReloj(){
+  const ahora = new Date();
+  const fecha = ahora.toLocaleDateString('es-ES');
+  const hora = ahora.toLocaleTimeString('es-ES');
+  fechaHoraElemento.textContent = `Hoy es ${fecha}, hora: ${hora}`;
+}
+actualizarReloj();
+setInterval(actualizarReloj, 1000);
+
 btnFichar.addEventListener('click', () => {
     if('geolocation' in navigator) 
     {
