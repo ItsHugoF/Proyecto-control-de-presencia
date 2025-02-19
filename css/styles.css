@@ -99,8 +99,13 @@
     font-weight: bold;
     color: #000;
   }
-  
 
+  .cronometro{
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+    color: #000;
+  }
 
 
   @media (min-width: 600px) {
