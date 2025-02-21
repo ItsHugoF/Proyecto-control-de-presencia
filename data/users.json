@@ -1,0 +1,12 @@
+[
+    {
+        "empresa": "marka",
+        "usuario": "admin",
+        "contraseña": "admin"
+    },
+    {
+        "empresa":"EDATEC",
+        "usuario": "hugo",
+        "contraseña": "1234"
+    }
+]

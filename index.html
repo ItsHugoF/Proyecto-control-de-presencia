@@ -1,32 +1,69 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba de Ubicación</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-ac/9sx..." crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet" href="css/styles.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prueba de Ubicación</title>
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha512-ac/9sx..."
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link rel="stylesheet" href="css/styles.css"/>
 </head>
 <body>
-    <header>
-        <img src="src/marka_informatica.jpg" alt="Logo empresa" class="logo"/>
-        <h1>Control de Presencia</h1>
-    </header>
-    <div class="icon-container">
-        <i class="fas fa-satellite-dish icono-rojo" id="statusIcon"></i>
-    </div>
-    <div class="botones">
-        <button id="btnFichar">Fichar</button>
-        <button id="btnSalir">Salir</button>
-    </div>
-    <div class="tiempo-info">
-        <p id="fechaHora"></p>
-    </div>
 
-    <p id="cronometro" class="cronometro"></p>
+  <header>
+    <img src="src/marka_informatica.jpg" alt="Logo empresa" class="logo"/>
+    <h1>Control de Presencia</h1>
+  </header>
 
-    <div id="mensaje" class="mensaje"></div>
+  <div class="icon-container">
+    <i class="fas fa-satellite-dish icono-rojo" id="statusIcon"></i>
+  </div>
 
-    <script src="js/script.js"></script>
+  <div class="botones">
+    <!-- Botón Fichar deshabilitado si no has iniciado sesión -->
+    <button id="btnFichar" disabled>Fichar</button>
+    <button id="btnSalir">Salir</button>
+  </div>
+
+  <div class="tiempo-info">
+    <p id="fechaHora"></p>
+  </div>
+
+  <p id="cronometro" class="cronometro"></p>
+
+  <div id="mensaje" class="mensaje"></div>
+
+  <footer class="barra-inferior">
+    <button id="btnIzquierda">Opción 1</button>
+    <button id="btnLoginForm">Iniciar Sesión</button>
+    <button id="btnDerecha">Opción 3</button>
+  </footer>
+
+  <!-- Sección de Login (oculta) -->
+  <div id="loginSection" class="login-section oculto">
+    <h2>Iniciar Sesión</h2>
+    <form id="loginForm">
+      <label for="empresaInput">Empresa:</label>
+      <input type="text" id="empresaInput" required />
+
+      <label for="usuarioInput">Usuario:</label>
+      <input type="text" id="usuarioInput" required />
+
+      <label for="contraseñaInput">Contraseña:</label>
+      <input type="password" id="contraseñaInput" required />
+
+      <button type="submit" id="btnLogin">Acceder</button>
+      <button type="button" id="btnCancelarLogin">Cancelar</button>
+    </form>
+    <p id="loginError" class="error-msg"></p>
+  </div>
+
+  <script src="js/script.js"></script>
 </body>
 </html>

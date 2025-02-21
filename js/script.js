@@ -1,78 +1,169 @@
-const btnFichar = document.getElementById('btnFichar');
-const btnSalir = document.getElementById('btnSalir');
-const mensaje = document.getElementById('mensaje');
-const statusIcon = document.getElementById('statusIcon');
+// ==========================
+// 1. Referencias al DOM
+// ==========================
+const btnFichar         = document.getElementById('btnFichar');
+const btnSalir          = document.getElementById('btnSalir');
+const mensaje           = document.getElementById('mensaje');
+const statusIcon        = document.getElementById('statusIcon');
 const fechaHoraElemento = document.getElementById('fechaHora');
-const cronometro = document.getElementById('cronometro');
+const cronometro        = document.getElementById('cronometro');
+
+// Barra inferior
+const btnIzquierda    = document.getElementById('btnIzquierda');
+const btnLoginForm    = document.getElementById('btnLoginForm');
+const btnDerecha      = document.getElementById('btnDerecha');
+
+// Login
+const loginSection       = document.getElementById('loginSection');
+const loginForm          = document.getElementById('loginForm');
+const btnCancelarLogin   = document.getElementById('btnCancelarLogin');
+
+const empresaInput       = document.getElementById('empresaInput');
+const usuarioInput       = document.getElementById('usuarioInput');
+const contraseñaInput    = document.getElementById('contraseñaInput');
+const loginError         = document.getElementById('loginError');
+
+// Array donde cargaremos usuarios desde JSON
+let usuarios = [];
+
+// Variables del cronómetro
+let tiempoInicioFichado  = null;
+let intervaloCronometro  = null;
 
 
-//Función para cambiar el color
-function setIconoColor(color) {
-  statusIcon.classList.remove('icono-verde','icono-amarillo', 'icono-rojo');
-  statusIcon.classList.add(`icono-${color}`);
+// =============================
+// 2. Carga de JSON y setup inicial
+// =============================
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    // Carga de users.json (asegúrate de que la ruta sea correcta)
+    const response = await fetch('data/users.json');
+    if (!response.ok) {
+      throw new Error('No se pudo cargar el archivo JSON');
+    }
+
+    usuarios = await response.json();
+    console.log('Usuarios cargados:', usuarios);
+
+    // Verificamos sesión (habilitar o no el botón Fichar)
+    verificarSesion();
+
+  } catch (error) {
+    console.error('Error al cargar el archivo JSON:', error);
+  }
+
+  // Reloj en tiempo real
+  actualizarReloj();
+  setInterval(actualizarReloj, 1000);
+
+  // Icono de conexión
+  actualizarIconoConexion();
+});
+
+
+// =============================
+// 3. Funciones de sesión
+// =============================
+function estaLogueado() {
+  return localStorage.getItem('loggedIn') === 'true';
 }
 
-//Reloj en tiempo real (fecha/hora)
-function actualizarReloj(){
+function iniciarSesion(empresa, usuario, contraseña) {
+  // Buscamos en el array usuarios
+  const encontrado = usuarios.find(u =>
+    u.empresa === empresa &&
+    u.usuario === usuario &&
+    u.contraseña === contraseña
+  );
+  if (encontrado) {
+    localStorage.setItem('loggedIn', 'true');
+    localStorage.setItem('empresa', empresa);
+    localStorage.setItem('usuario', usuario);
+    return true;
+  }
+  return false;
+}
+
+function cerrarSesion() {
+  localStorage.removeItem('loggedIn');
+  localStorage.removeItem('empresa');
+  localStorage.removeItem('usuario');
+}
+
+function verificarSesion() {
+  // habilitar/deshabilitar Fichar
+  if (estaLogueado()) {
+    btnFichar.disabled = false;
+  } else {
+    btnFichar.disabled = true;
+  }
+}
+
+
+// =============================
+// 4. Reloj en tiempo real
+// =============================
+function actualizarReloj() {
   const ahora = new Date();
   const fecha = ahora.toLocaleDateString('es-ES');
   const hora = ahora.toLocaleTimeString('es-ES');
   fechaHoraElemento.textContent = `Hoy es ${fecha}, hora: ${hora}`;
 }
 
-actualizarReloj();
-setInterval(actualizarReloj, 1000);
 
-//Cronómetro al fichar
-let tiempoInicioFichado = null;
-let intervaloCronometro = null;
-
-function iniciarCronometro(){
+// =============================
+// 5. Cronómetro
+// =============================
+function iniciarCronometro() {
   tiempoInicioFichado = Date.now();
   clearInterval(intervaloCronometro);
 
   intervaloCronometro = setInterval(() => {
     const ahora = Date.now();
-    const transcurrido = ahora- tiempoInicioFichado;
+    const transcurrido = ahora - tiempoInicioFichado;
     cronometro.textContent = formatearTiempo(transcurrido);
   }, 1000);
 }
 
-function detenerCronometro(){
+function detenerCronometro() {
   clearInterval(intervaloCronometro);
   cronometro.textContent = '';
 }
 
-function formatearTiempo(ms){
+function formatearTiempo(ms) {
   let totalSegundos = Math.floor(ms / 1000);
   let horas = Math.floor(totalSegundos / 3600);
   totalSegundos %= 3600;
   let minutos = Math.floor(totalSegundos / 60);
   let segundos = totalSegundos % 60;
 
+  let horasStr = horas.toString().padStart(2, '0');
+  let minutosStr = minutos.toString().padStart(2, '0');
+  let segundosStr = segundos.toString().padStart(2, '0');
 
-  let horasStr = horas.toString().padStart(2,'0');
-  let minutosStr = minutos.toString().padStart(2,'0');
-  let segundosStr = horas.toString().padStart(2,'0');
-
-  return `${horasStr}:${minutosStr}:${segundosStr}`
+  return `${horasStr}:${minutosStr}:${segundosStr}`;
 }
 
 
+// =============================
+// 6. Conexión (icono de satélite)
+// =============================
+function setIconoColor(color) {
+  statusIcon.classList.remove('icono-verde','icono-amarillo','icono-rojo');
+  statusIcon.classList.add(`icono-${color}`);
+}
 
-function actualizarIconoConexion(){
-  if(!navigator.onLine){
+function actualizarIconoConexion() {
+  if (!navigator.onLine) {
     setIconoColor('rojo');
     return;
   }
-
-  if(!navigator.connection || !navigator.connection.effectiveType){
+  if (!navigator.connection || !navigator.connection.effectiveType) {
     setIconoColor('verde');
     return;
   }
-
   const tipo = navigator.connection.effectiveType;
-  switch(tipo){
+  switch (tipo) {
     case '4g':
     case 'wifi':
       setIconoColor('verde');
@@ -92,61 +183,99 @@ function actualizarIconoConexion(){
 
 window.addEventListener('online', actualizarIconoConexion);
 window.addEventListener('offline', actualizarIconoConexion);
-if(navigator.connection){
+if (navigator.connection) {
   navigator.connection.addEventListener('change', actualizarIconoConexion);
 }
-document.addEventListener('DOMContentLoaded', actualizarIconoConexion);
 
 
+// =============================
+// 7. Eventos de Botones Principales
+// =============================
 btnFichar.addEventListener('click', () => {
   iniciarCronometro();
-    if('geolocation' in navigator) 
-    {
-        navigator.geolocation.getCurrentPosition(
-            (position) => 
-            {
-                const latitud = position.coords.latitude;
-                const longitud = position.coords.longitude;
-                const precision = position.coords.accuracy; 
-                const mapsLink = `https://www.google.com/maps/search/?api=1&query=${latitud},${longitud}`
-                mensaje.innerHTML = `
-                  <p>Estás fichando en:</p>
-                  <ul>
-                    <li>Latitud: <strong>${latitud.toFixed(6)}</strong></li>
-                    <li>Longitud: <strong>${longitud.toFixed(6)}</strong></li>
-                    <li>Precisión: +${Math.round(precision)} metros</li>
-                  </ul>
-                  <a href="${mapsLink}" target="_blank">Ver ubicación en Google Maps</a>
-                `;
-            },
-            (error) => 
-            {
-                switch (error.code) 
-                {
-                  case error.PERMISSION_DENIED:
-                    mensaje.textContent = "Has denegado el permiso de ubicación.";
-                    break;
-                  case error.POSITION_UNAVAILABLE:
-                    mensaje.textContent = "Información de ubicación no disponible.";
-                    break;
-                  case error.TIMEOUT:
-                    mensaje.textContent = "La solicitud de ubicación ha caducado.";
-                    break;
-                  default:
-                    mensaje.textContent = "Ha ocurrido un error desconocido al obtener la ubicación.";
-                    break;
-                }
-            }
-        );
-    } else 
-    {
-        mensaje.textContent = "La geolocalización no está soportada en este navegador.";
-        setIconoColor('rojo');
-    }
-});
+  // Geolocalización
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const accuracy = position.coords.accuracy;
+        const mapsLink = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
 
+        mensaje.innerHTML = `
+          <p>Estás fichando en:</p>
+          <ul>
+            <li>Latitud: <strong>${lat.toFixed(6)}</strong></li>
+            <li>Longitud: <strong>${lon.toFixed(6)}</strong></li>
+            <li>Precisión: ±${Math.round(accuracy)} metros</li>
+          </ul>
+          <a href="${mapsLink}" target="_blank">Ver ubicación en Google Maps</a>
+        `;
+      },
+      (error) => {
+        setIconoColor('rojo');
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            mensaje.textContent = "Has denegado el permiso de ubicación.";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            mensaje.textContent = "Información de ubicación no disponible.";
+            break;
+          case error.TIMEOUT:
+            mensaje.textContent = "La solicitud de ubicación ha caducado.";
+            break;
+          default:
+            mensaje.textContent = "Ha ocurrido un error desconocido al obtener la ubicación.";
+            break;
+        }
+      }
+    );
+  } else {
+    mensaje.textContent = "La geolocalización no está soportada en este navegador.";
+    setIconoColor('rojo');
+  }
+});
 
 btnSalir.addEventListener('click', () => {
   detenerCronometro();
-    mensaje.textContent = "Has salido";
-})
+  mensaje.textContent = "Has salido";
+});
+
+// =============================
+// 8. Barra Inferior
+// =============================
+btnIzquierda.addEventListener('click', () => {
+  alert("Botón Izquierda (Opción 1) - Sin Funcionalidad");
+});
+btnDerecha.addEventListener('click', () => {
+  alert("Botón Derecha (Opción 3) - Sin Funcionalidad");
+});
+
+// Botón que muestra/oculta el login
+btnLoginForm.addEventListener('click', () => {
+  loginSection.classList.toggle('oculto');
+});
+
+btnCancelarLogin.addEventListener('click', () => {
+  loginSection.classList.add('oculto');
+});
+
+// =============================
+// 9. Evento Submit de Login
+// =============================
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  loginError.textContent = "";
+
+  const empresa     = empresaInput.value.trim();
+  const usuario     = usuarioInput.value.trim();
+  const contraseña  = contraseñaInput.value.trim();
+
+  if (iniciarSesion(empresa, usuario, contraseña)) {
+    loginError.textContent = "Inicio de sesión correcto.";
+    loginSection.classList.add('oculto');
+    verificarSesion();
+  } else {
+    loginError.textContent = "Datos incorrectos.";
+  }
+});

@@ -1,119 +1,159 @@
 /* Reset básico */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Estilos base de la página */
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #ffffff; /* Fondo blanco */
-    color: #000000;           /* Texto negro */
-    text-align: center;
-    padding: 1rem;
-  }
-  
-  /* Cabecera con logo + título */
-  header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  
-  .logo {
-    width: 250px;
-    height: 100px;
-    object-fit: cover;
-    margin-bottom: 0.5rem;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilos base de la página */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ffffff; /* Fondo blanco */
+  color: #000000;           /* Texto negro */
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Cabecera con logo + título */
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.logo {
+  width: 250px;
+  height: 100px;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #000000; /* Texto negro */
+}
+
+/* Contenedor del icono */
+.icon-container {
+  margin: 1rem 0;
+}
+
+/* Icono de Font Awesome */
+#statusIcon {
+  font-size: 3rem;
+}
+
+/* Clases de color para el icono de satélite */
+.icono-verde {
+  color: green; 
+}
+.icono-amarillo {
+  color: goldenrod;
+}
+.icono-rojo {
+  color: red;
+}
+
+/* Botones de Fichar y Salir */
+.botones {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.botones button {
+  font-size: 1.1rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #0056b3; /* Azul */
+  color: #ffffff;
+}
+.botones button:hover {
+  background-color: #003f86;
+}
+
+/* Contenedor del mensaje */
+.mensaje {
+  background-color: #f8f8f8;
+  padding: 1rem;
+  border-radius: 5px;
+  min-height: 80px;
+  margin: 0 auto;
+  max-width: 600px; 
+}
+
+/* Zona de Fecha, Hora y Cronómetro */
+.tiempo-info {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #444;
+}
+#fechaHora {
+  font-weight: bold;
+  color: #000;
+}
+.cronometro {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  color: #000;
+}
+
+/* Barra inferior */
+.barra-inferior {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #e9e9e9;
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+.barra-inferior button {
+  padding: 0.8rem 1rem;
+  background-color: #ccc;
+  border: none;
+  border-radius: 5px;
+}
+
+/* Sección Login */
+.login-section {
+  position: fixed; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  z-index: 999;
+  width: 300px;
+  max-width: 90%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Para ocultar la sección de login */
+.oculto {
+  display: none;
+}
+
+.error-msg {
+  color: red;
+  margin-top: 0.5rem;
+}
+
+/* Responsivo */
+@media (min-width: 600px) {
   h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    color: #000000; /* Texto negro */
+    font-size: 2.2rem;
   }
-  
-  /* Contenedor del icono */
-  .icon-container {
-    margin: 1rem 0;
-  }
-  
-  /* Icono de Font Awesome */
-  #statusIcon {
-    font-size: 3rem;
-  }
-  
-  /* Clases de color para el icono de satélite */
-  .icono-verde {
-    color: green; 
-  }
-  .icono-amarillo {
-    color: goldenrod;
-  }
-  .icono-rojo {
-    color: red;
-  }
-  
-  /* Botones */
-  .botones {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-  
   .botones button {
-    font-size: 1.1rem;
-    padding: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #0056b3; /* Azul corporativo - ajusta a tu azul */
-    color: #ffffff;           /* Texto blanco */
+    font-size: 1.2rem;
   }
-  
-  /* Hover de los botones */
-  .botones button:hover {
-    background-color: #003f86; /* Un tono más oscuro del azul */
-  }
-  
-  /* Contenedor del mensaje */
-  .mensaje {
-    background-color: #f8f8f8; /* Blanco muy suave, para resaltar el mensaje */
-    padding: 1rem;
-    border-radius: 5px;
-    min-height: 80px;
-    margin: 0 auto;
-    max-width: 600px; /* Límites para que se vea mejor en pantallas grandes */
-  }
-
-  .tiempo-info{
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    color: #444
-  }
-
-  #fechaHora{
-    font-weight: bold;
-    color: #000;
-  }
-
-  .cronometro{
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin: 0.5rem 0;
-    color: #000;
-  }
-
-
-  @media (min-width: 600px) {
-    h1 {
-      font-size: 2.2rem;
-    }
-    .botones button {
-      font-size: 1.2rem;
-    }
-  }
-  
+}
