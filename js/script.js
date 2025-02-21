@@ -58,7 +58,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Icono de conexión
   actualizarIconoConexion();
+
+  reanudarCronometroSiFichado();
 });
+
+
+function reanudarCronometroSiFichado()
+{
+  const isFichado = localStorage.getItem('isFichado') === 'true';
+  if(isFichado)
+  {
+    const fichadoStart = localStorage.getItem('fichadoStart');
+    if(fichadoStart)
+    {
+      tiempoInicioFichado = parseInt(fichadoStart,10);
+      iniciarCronometroContinuo();
+    }
+  }
+}
 
 
 // =============================
@@ -118,6 +135,21 @@ function iniciarCronometro() {
   tiempoInicioFichado = Date.now();
   clearInterval(intervaloCronometro);
 
+  intervaloCronometro = setInterval(() => {
+    const ahora = Date.now();
+    const transcurrido = ahora - tiempoInicioFichado;
+    cronometro.textContent = formatearTiempo(transcurrido);
+  }, 1000);
+}
+
+function iniciarCronometroContinuo()
+{
+  arrancarIntervaloCronometro(); 
+}
+
+function arrancarIntervaloCronometro()
+{
+  clearInterval(intervaloCronometro);
   intervaloCronometro = setInterval(() => {
     const ahora = Date.now();
     const transcurrido = ahora - tiempoInicioFichado;
