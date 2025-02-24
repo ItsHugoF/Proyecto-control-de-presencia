@@ -21,31 +21,36 @@
     <h1>Control de Presencia</h1>
   </header>
 
+  <!-- ICONO DE SATÉLITE -->
   <div class="icon-container">
     <i class="fas fa-satellite-dish icono-rojo" id="statusIcon"></i>
   </div>
 
+  <!-- BOTONES PRINCIPALES -->
   <div class="botones">
-    <!-- Botón Fichar deshabilitado si no has iniciado sesión -->
+    <!-- Empieza deshabilitado: no puedes fichar sin login -->
     <button id="btnFichar" disabled>Fichar</button>
     <button id="btnSalir">Salir</button>
   </div>
 
+  <!-- RELOJ Y CRONÓMETRO -->
   <div class="tiempo-info">
     <p id="fechaHora"></p>
   </div>
-
   <p id="cronometro" class="cronometro"></p>
 
+  <!-- MENSAJE DE UBICACIÓN O NOTIFICACIONES -->
   <div id="mensaje" class="mensaje"></div>
 
+  <!-- BARRA INFERIOR (3 BOTONES) -->
   <footer class="barra-inferior">
     <button id="btnIzquierda">Opción 1</button>
     <button id="btnLoginForm">Iniciar Sesión</button>
-    <button id="btnDerecha">Opción 3</button>
+    <!-- Botón derecha = Cerrar Sesión -->
+    <button id="btnDerecha">Cerrar Sesión</button>
   </footer>
 
-  <!-- Sección de Login (oculta) -->
+  <!-- SECCIÓN LOGIN (OCULTA AL INICIO) -->
   <div id="loginSection" class="login-section oculto">
     <h2>Iniciar Sesión</h2>
     <form id="loginForm">
