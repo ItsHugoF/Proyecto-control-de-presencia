@@ -176,6 +176,20 @@ function formatearTiempo(ms) {
   return `${horasStr}:${minutosStr}:${segundosStr}`;
 }
 
+function cerrarSesion(){
+  localStorage.removeItem('loggedIn');
+  localStorage.removeItem('empresa');
+  localStorage.removeItem('usuario');
+  //Ahora quitamos el estado de fichado
+  localStorage.removeItem('isFichado');
+  localStorage.removeItem('fichadoStart');
+
+  verificarSesion();
+  detenerCronometro();
+
+  mensaje.textContent = "Has cerrado sesión.";
+}
+
 
 // =============================
 // 6. Conexión (icono de satélite)
@@ -280,7 +294,7 @@ btnIzquierda.addEventListener('click', () => {
   alert("Botón Izquierda (Opción 1) - Sin Funcionalidad");
 });
 btnDerecha.addEventListener('click', () => {
-  alert("Botón Derecha (Opción 3) - Sin Funcionalidad");
+  cerrarSesion();
 });
 
 // Botón que muestra/oculta el login
