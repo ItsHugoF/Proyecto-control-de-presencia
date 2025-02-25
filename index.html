@@ -26,9 +26,7 @@
     <i class="fas fa-satellite-dish icono-rojo" id="statusIcon"></i>
   </div>
 
-  <!-- BOTONES PRINCIPALES -->
   <div class="botones">
-    <!-- Empieza deshabilitado: no puedes fichar sin login -->
     <button id="btnFichar" disabled>Fichar</button>
     <button id="btnSalir">Salir</button>
   </div>
@@ -39,35 +37,13 @@
   </div>
   <p id="cronometro" class="cronometro"></p>
 
-  <!-- MENSAJE DE UBICACIÓN O NOTIFICACIONES -->
   <div id="mensaje" class="mensaje"></div>
 
-  <!-- BARRA INFERIOR (3 BOTONES) -->
   <footer class="barra-inferior">
     <button id="btnIzquierda">Opción 1</button>
-    <button id="btnLoginForm">Iniciar Sesión</button>
-    <!-- Botón derecha = Cerrar Sesión -->
+    <button id="btnLoginForm" disabled>Iniciar Sesión</button>
     <button id="btnDerecha">Cerrar Sesión</button>
   </footer>
-
-  <!-- SECCIÓN LOGIN (OCULTA AL INICIO) -->
-  <div id="loginSection" class="login-section oculto">
-    <h2>Iniciar Sesión</h2>
-    <form id="loginForm">
-      <label for="empresaInput">Empresa:</label>
-      <input type="text" id="empresaInput" required />
-
-      <label for="usuarioInput">Usuario:</label>
-      <input type="text" id="usuarioInput" required />
-
-      <label for="contraseñaInput">Contraseña:</label>
-      <input type="password" id="contraseñaInput" required />
-
-      <button type="submit" id="btnLogin">Acceder</button>
-      <button type="button" id="btnCancelarLogin">Cancelar</button>
-    </form>
-    <p id="loginError" class="error-msg"></p>
-  </div>
 
   <script src="js/script.js"></script>
 </body>

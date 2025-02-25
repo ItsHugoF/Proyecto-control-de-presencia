@@ -1,154 +1,94 @@
-// ==========================
-// 1. Referencias al DOM
-// ==========================
-const btnFichar         = document.getElementById('btnFichar');
-const btnSalir          = document.getElementById('btnSalir');
-const mensaje           = document.getElementById('mensaje');
-const statusIcon        = document.getElementById('statusIcon');
-const fechaHoraElemento = document.getElementById('fechaHora');
-const cronometro        = document.getElementById('cronometro');
+/********************************************
+ * 1. REFERENCIAS AL DOM
+ ********************************************/
+const btnFichar   = document.getElementById('btnFichar');
+const btnSalir    = document.getElementById('btnSalir');
+const mensaje     = document.getElementById('mensaje');
+const statusIcon  = document.getElementById('statusIcon');
+const fechaHora   = document.getElementById('fechaHora');
+const cronometro  = document.getElementById('cronometro');
 
 // Barra inferior
-const btnIzquierda    = document.getElementById('btnIzquierda');
-const btnLoginForm    = document.getElementById('btnLoginForm');
-const btnDerecha      = document.getElementById('btnDerecha');
+const btnIzquierda = document.getElementById('btnIzquierda');
+const btnLoginForm = document.getElementById('btnLoginForm'); // ahora ya no hace falta
+const btnDerecha   = document.getElementById('btnDerecha');   // Cerrar sesión
 
-// Login
-const loginSection       = document.getElementById('loginSection');
-const loginForm          = document.getElementById('loginForm');
-const btnCancelarLogin   = document.getElementById('btnCancelarLogin');
+// Variables cronómetro
+let tiempoInicioFichado = null;
+let intervaloCronometro = null;
 
-const empresaInput       = document.getElementById('empresaInput');
-const usuarioInput       = document.getElementById('usuarioInput');
-const contraseñaInput    = document.getElementById('contraseñaInput');
-const loginError         = document.getElementById('loginError');
-
-// Array donde cargaremos usuarios desde JSON
-let usuarios = [];
-
-// Variables del cronómetro
-let tiempoInicioFichado  = null;
-let intervaloCronometro  = null;
-
-
-// =============================
-// 2. Carga de JSON y setup inicial
-// =============================
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    // Carga de users.json (asegúrate de que la ruta sea correcta)
-    const response = await fetch('data/users.json');
-    if (!response.ok) {
-      throw new Error('No se pudo cargar el archivo JSON');
-    }
-
-    usuarios = await response.json();
-    console.log('Usuarios cargados:', usuarios);
-
-    // Verificamos sesión (habilitar o no el botón Fichar)
-    verificarSesion();
-
-  } catch (error) {
-    console.error('Error al cargar el archivo JSON:', error);
+/********************************************
+ * 2. AL CARGAR LA PÁGINA
+ ********************************************/
+document.addEventListener('DOMContentLoaded', () => {
+  // 1) Si NO estás logueado, forzar a login.html
+  if (!estaLogueado()) {
+    window.location.href = 'login.html';
+    return;
   }
 
-  // Reloj en tiempo real
+  // 2) Iniciar reloj
   actualizarReloj();
   setInterval(actualizarReloj, 1000);
 
-  // Icono de conexión
+  // 3) Icono de conexión
   actualizarIconoConexion();
 
+  // 4) Reanuda cronómetro si estabas fichado
   reanudarCronometroSiFichado();
 });
 
+/********************************************
+ * 3. COMPROBAR SESIÓN
+ ********************************************/
+function estaLogueado() {
+  return localStorage.getItem('loggedIn') === 'true';
+}
 
-function reanudarCronometroSiFichado()
-{
+/********************************************
+ * 4. CERRAR SESIÓN
+ ********************************************/
+function cerrarSesion() {
+  // Borrar login
+  localStorage.removeItem('loggedIn');
+  localStorage.removeItem('empresa');
+  localStorage.removeItem('usuario');
+
+  // Borrar estado de fichado
+  localStorage.removeItem('isFichado');
+  localStorage.removeItem('fichadoStart');
+
+  // Redirige a login.html
+  window.location.href = 'login.html';
+}
+
+/********************************************
+ * 5. CRONÓMETRO
+ ********************************************/
+function reanudarCronometroSiFichado() {
   const isFichado = localStorage.getItem('isFichado') === 'true';
-  if(isFichado)
-  {
+  if (isFichado) {
     const fichadoStart = localStorage.getItem('fichadoStart');
-    if(fichadoStart)
-    {
-      tiempoInicioFichado = parseInt(fichadoStart,10);
+    if (fichadoStart) {
+      tiempoInicioFichado = parseInt(fichadoStart, 10);
       iniciarCronometroContinuo();
     }
   }
 }
 
-
-// =============================
-// 3. Funciones de sesión
-// =============================
-function estaLogueado() {
-  return localStorage.getItem('loggedIn') === 'true';
-}
-
-function iniciarSesion(empresa, usuario, contraseña) {
-  // Buscamos en el array usuarios
-  const encontrado = usuarios.find(u =>
-    u.empresa === empresa &&
-    u.usuario === usuario &&
-    u.contraseña === contraseña
-  );
-  if (encontrado) {
-    localStorage.setItem('loggedIn', 'true');
-    localStorage.setItem('empresa', empresa);
-    localStorage.setItem('usuario', usuario);
-    return true;
-  }
-  return false;
-}
-
-function cerrarSesion() {
-  localStorage.removeItem('loggedIn');
-  localStorage.removeItem('empresa');
-  localStorage.removeItem('usuario');
-}
-
-function verificarSesion() {
-  // habilitar/deshabilitar Fichar
-  if (estaLogueado()) {
-    btnFichar.disabled = false;
-  } else {
-    btnFichar.disabled = true;
-  }
-}
-
-
-// =============================
-// 4. Reloj en tiempo real
-// =============================
-function actualizarReloj() {
-  const ahora = new Date();
-  const fecha = ahora.toLocaleDateString('es-ES');
-  const hora = ahora.toLocaleTimeString('es-ES');
-  fechaHoraElemento.textContent = `Hoy es ${fecha}, hora: ${hora}`;
-}
-
-
-// =============================
-// 5. Cronómetro
-// =============================
 function iniciarCronometro() {
+  localStorage.setItem('isFichado', 'true');
+  localStorage.setItem('fichadoStart', Date.now().toString());
+
   tiempoInicioFichado = Date.now();
-  clearInterval(intervaloCronometro);
-
-  intervaloCronometro = setInterval(() => {
-    const ahora = Date.now();
-    const transcurrido = ahora - tiempoInicioFichado;
-    cronometro.textContent = formatearTiempo(transcurrido);
-  }, 1000);
+  arrancarIntervaloCronometro();
 }
 
-function iniciarCronometroContinuo()
-{
-  arrancarIntervaloCronometro(); 
+function iniciarCronometroContinuo() {
+  arrancarIntervaloCronometro();
 }
 
-function arrancarIntervaloCronometro()
-{
+function arrancarIntervaloCronometro() {
   clearInterval(intervaloCronometro);
   intervaloCronometro = setInterval(() => {
     const ahora = Date.now();
@@ -160,6 +100,9 @@ function arrancarIntervaloCronometro()
 function detenerCronometro() {
   clearInterval(intervaloCronometro);
   cronometro.textContent = '';
+
+  localStorage.setItem('isFichado', 'false');
+  localStorage.removeItem('fichadoStart');
 }
 
 function formatearTiempo(ms) {
@@ -169,31 +112,24 @@ function formatearTiempo(ms) {
   let minutos = Math.floor(totalSegundos / 60);
   let segundos = totalSegundos % 60;
 
-  let horasStr = horas.toString().padStart(2, '0');
-  let minutosStr = minutos.toString().padStart(2, '0');
-  let segundosStr = segundos.toString().padStart(2, '0');
+  let hStr = horas.toString().padStart(2,'0');
+  let mStr = minutos.toString().padStart(2,'0');
+  let sStr = segundos.toString().padStart(2,'0');
 
-  return `${horasStr}:${minutosStr}:${segundosStr}`;
+  return `${hStr}:${mStr}:${sStr}`;
 }
 
-function cerrarSesion(){
-  localStorage.removeItem('loggedIn');
-  localStorage.removeItem('empresa');
-  localStorage.removeItem('usuario');
-  //Ahora quitamos el estado de fichado
-  localStorage.removeItem('isFichado');
-  localStorage.removeItem('fichadoStart');
-
-  verificarSesion();
-  detenerCronometro();
-
-  mensaje.textContent = "Has cerrado sesión.";
+/********************************************
+ * 6. RELOJ
+ ********************************************/
+function actualizarReloj() {
+  const ahora = new Date();
+  fechaHora.textContent = `Hoy es ${ahora.toLocaleDateString('es-ES')}, hora: ${ahora.toLocaleTimeString('es-ES')}`;
 }
 
-
-// =============================
-// 6. Conexión (icono de satélite)
-// =============================
+/********************************************
+ * 7. CONEXIÓN (ICONO SATÉLITE)
+ ********************************************/
 function setIconoColor(color) {
   statusIcon.classList.remove('icono-verde','icono-amarillo','icono-rojo');
   statusIcon.classList.add(`icono-${color}`);
@@ -226,28 +162,27 @@ function actualizarIconoConexion() {
       break;
   }
 }
-
 window.addEventListener('online', actualizarIconoConexion);
 window.addEventListener('offline', actualizarIconoConexion);
 if (navigator.connection) {
   navigator.connection.addEventListener('change', actualizarIconoConexion);
 }
 
-
-// =============================
-// 7. Eventos de Botones Principales
-// =============================
+/********************************************
+ * 8. EVENTOS BOTONES
+ ********************************************/
 btnFichar.addEventListener('click', () => {
+  // Inicia cronómetro + geolocalización
   iniciarCronometro();
-  // Geolocalización
+
   if ('geolocation' in navigator) {
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        const accuracy = position.coords.accuracy;
-        const mapsLink = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        const accuracy = pos.coords.accuracy;
 
+        const mapsLink = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
         mensaje.innerHTML = `
           <p>Estás fichando en:</p>
           <ul>
@@ -260,68 +195,26 @@ btnFichar.addEventListener('click', () => {
       },
       (error) => {
         setIconoColor('rojo');
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            mensaje.textContent = "Has denegado el permiso de ubicación.";
-            break;
-          case error.POSITION_UNAVAILABLE:
-            mensaje.textContent = "Información de ubicación no disponible.";
-            break;
-          case error.TIMEOUT:
-            mensaje.textContent = "La solicitud de ubicación ha caducado.";
-            break;
-          default:
-            mensaje.textContent = "Ha ocurrido un error desconocido al obtener la ubicación.";
-            break;
-        }
+        mensaje.textContent = "Error al obtener ubicación: " + error.message;
       }
     );
   } else {
-    mensaje.textContent = "La geolocalización no está soportada en este navegador.";
+    mensaje.textContent = "La geolocalización no está soportada.";
     setIconoColor('rojo');
   }
 });
 
 btnSalir.addEventListener('click', () => {
   detenerCronometro();
-  mensaje.textContent = "Has salido";
+  mensaje.textContent = "Has salido (pero sigues logueado).";
 });
 
-// =============================
-// 8. Barra Inferior
-// =============================
+// Botón izquierda (opcional)
 btnIzquierda.addEventListener('click', () => {
-  alert("Botón Izquierda (Opción 1) - Sin Funcionalidad");
+  alert("Opción 1 - Sin funcionalidad");
 });
+
+// Botón derecha = Cerrar Sesión
 btnDerecha.addEventListener('click', () => {
   cerrarSesion();
-});
-
-// Botón que muestra/oculta el login
-btnLoginForm.addEventListener('click', () => {
-  loginSection.classList.toggle('oculto');
-});
-
-btnCancelarLogin.addEventListener('click', () => {
-  loginSection.classList.add('oculto');
-});
-
-// =============================
-// 9. Evento Submit de Login
-// =============================
-loginForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  loginError.textContent = "";
-
-  const empresa     = empresaInput.value.trim();
-  const usuario     = usuarioInput.value.trim();
-  const contraseña  = contraseñaInput.value.trim();
-
-  if (iniciarSesion(empresa, usuario, contraseña)) {
-    loginError.textContent = "Inicio de sesión correcto.";
-    loginSection.classList.add('oculto');
-    verificarSesion();
-  } else {
-    loginError.textContent = "Datos incorrectos.";
-  }
 });
