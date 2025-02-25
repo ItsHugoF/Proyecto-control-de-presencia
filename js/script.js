@@ -183,7 +183,7 @@ btnFichar.addEventListener('click', () => {
         const lat = pos.coords.latitude;
         const lon = pos.coords.longitude;
         const accuracy = pos.coords.accuracy;
-
+        
         const mapsLink = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
         mensaje.innerHTML = `
           <p>Estás fichando en:</p>
