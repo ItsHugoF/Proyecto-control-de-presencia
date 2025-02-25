@@ -8,25 +8,29 @@
 </head>
 <body>
     <header>
+        <img src="src/marka_informatica.jpg" alt="Logo empresa" class="logo">
         <h1>Iniciar Sesión</h1>
     </header>
 
 
     <section class="login-section">
-        <form id="loginForm">
-            <label for="empresaInput">Empresa:</label>
-            <input type="text" id="empresaInput" required/>
-
-            <label for="usuarioInput">Usuario:</label>
-            <input type="text" id="usuarioInput" required/>
-
-            <label for="contraseñaInput">Contraseña:</label>
-            <input type="text" id="contraseñaInput" required/>
-
-            <button type="submit" id="btnLogin">Acceder</button>
+        <h2 class="login-titulo">Bienvenido</h2>
+    
+        <form id="loginForm" class="login-form">
+          <label for="empresaInput">Empresa</label>
+          <input type="text" id="empresaInput" required />
+    
+          <label for="usuarioInput">Usuario</label>
+          <input type="text" id="usuarioInput" required />
+    
+          <label for="contraseñaInput">Contraseña</label>
+          <input type="password" id="contraseñaInput" required />
+    
+          <button type="submit" id="btnLogin" class="btn-acceder">Acceder</button>
         </form>
+    
         <p id="loginError" class="error-msg"></p>
-    </section>
+      </section>
 
     <script src="js/login.js"></script>
 </body>

@@ -1,159 +1,236 @@
-/* Reset básico */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Estilos base de la página */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #ffffff; /* Fondo blanco */
-  color: #000000;           /* Texto negro */
-  text-align: center;
-  padding: 1rem;
-}
-
-/* Cabecera con logo + título */
-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.logo {
-  width: 250px;
-  height: 100px;
-  object-fit: cover;
-  margin-bottom: 0.5rem;
-}
-
-h1 {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-  color: #000000; /* Texto negro */
-}
-
-/* Contenedor del icono */
-.icon-container {
-  margin: 1rem 0;
-}
-
-/* Icono de Font Awesome */
-#statusIcon {
-  font-size: 3rem;
-}
-
-/* Clases de color para el icono de satélite */
-.icono-verde {
-  color: green; 
-}
-.icono-amarillo {
-  color: goldenrod;
-}
-.icono-rojo {
-  color: red;
-}
-
-/* Botones de Fichar y Salir */
-.botones {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.botones button {
-  font-size: 1.1rem;
-  padding: 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #0056b3; /* Azul */
-  color: #ffffff;
-}
-.botones button:hover {
-  background-color: #003f86;
-}
-
-/* Contenedor del mensaje */
-.mensaje {
-  background-color: #f8f8f8;
-  padding: 1rem;
-  border-radius: 5px;
-  min-height: 80px;
-  margin: 0 auto;
-  max-width: 600px; 
-}
-
-/* Zona de Fecha, Hora y Cronómetro */
-.tiempo-info {
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  color: #444;
-}
-#fechaHora {
-  font-weight: bold;
-  color: #000;
-}
-.cronometro {
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin: 0.5rem 0;
-  color: #000;
-}
-
-/* Barra inferior */
-.barra-inferior {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #e9e9e9;
-  display: flex;
-  justify-content: space-around;
-  padding: 0.5rem;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-}
-.barra-inferior button {
-  padding: 0.8rem 1rem;
-  background-color: #ccc;
-  border: none;
-  border-radius: 5px;
-}
-
-/* Sección Login */
-.login-section {
-  position: fixed; 
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #ffffff;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  z-index: 999;
-  width: 300px;
-  max-width: 90%;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-/* Para ocultar la sección de login */
-.oculto {
-  display: none;
-}
-
-.error-msg {
-  color: red;
-  margin-top: 0.5rem;
-}
-
-/* Responsivo */
-@media (min-width: 600px) {
+/* ===================================================
+   1. RESET BÁSICO
+   =================================================== */
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* ===================================================
+     2. ESTILOS BASE DEL BODY
+     =================================================== */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* Fondo blanco */
+    color: #000000;            /* Texto negro */
+    text-align: center;        /* Centra texto por defecto */
+    padding: 1rem;
+  }
+  
+  /* ===================================================
+     3. ENCABEZADO (HEADER)
+     =================================================== */
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .logo {
+    width: 250px;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+  }
+  
   h1 {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: #000;
   }
+  
+  /* ===================================================
+     4. ÍCONO (SATÉLITE / ESTADO)
+     =================================================== */
+  .icon-container {
+    margin: 1rem 0;
+  }
+  
+  #statusIcon {
+    font-size: 3rem;
+  }
+  
+  /* Clases para cambiar color del ícono según estado */
+  .icono-verde {
+    color: green;
+  }
+  .icono-amarillo {
+    color: goldenrod;
+  }
+  .icono-rojo {
+    color: red;
+  }
+  
+  /* ===================================================
+     5. BOTONES PRINCIPALES (INDEX)
+     =================================================== */
+  .botones {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
   .botones button {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #0056b3; /* Azul principal */
+    color: #ffffff;
+    transition: background-color 0.2s;
   }
-}
+  
+  .botones button:hover {
+    background-color: #003f86; /* Azul más oscuro */
+  }
+  
+  /* ===================================================
+     6. MENSAJES Y CONTENEDORES DE INFORMACIÓN
+     =================================================== */
+  .mensaje {
+    background-color: #f8f8f8;
+    padding: 1rem;
+    border-radius: 5px;
+    min-height: 80px;
+    margin: 0 auto;
+    max-width: 600px;
+  }
+  
+  /* Fecha, hora y cronómetro */
+  .tiempo-info {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: #444;
+  }
+  #fechaHora {
+    font-weight: bold;
+    color: #000;
+  }
+  .cronometro {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+    color: #000;
+  }
+  
+  /* ===================================================
+     7. BARRA INFERIOR (INDEX)
+     =================================================== */
+  .barra-inferior {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #e9e9e9;
+    display: flex;
+    justify-content: space-around;
+    padding: 0.5rem;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .barra-inferior button {
+    padding: 0.8rem 1rem;
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+  }
+  
+  .barra-inferior button:hover {
+    background-color: #bbb;
+  }
+  
+  /* ===================================================
+     8. SECCIÓN DE LOGIN
+     =================================================== */
+  
+  /* Sección principal donde se ubica el formulario */
+  .login-section {
+    /* Ocupa toda la pantalla en login.html, o se centra
+       si quieres un “modal” */
+    position: fixed; 
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    z-index: 999;
+    width: 300px;
+    max-width: 90%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    text-align: left; /* Etiquetas e inputs en column */
+  }
+  
+  /* Formulario de login */
+  .login-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .login-section label {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+  }
+  
+  .login-section input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 1rem;
+  }
+  
+  .login-logo{
+    width: 150px;
+    height: auto;
+    object-fit: cover;
+    margin-bottom: 1rem; 
+  }
+
+  /* Botón de "Acceder" en login */
+  .login-section button {
+    font-size: 1.1rem;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #0056b3; /* Azul principal */
+    color: #ffffff;
+    transition: background-color 0.2s;
+  }
+  
+  .login-section button:hover {
+    background-color: #003f86;
+  }
+  
+  /* Mensaje de error */
+  .error-msg {
+    color: red;
+    margin-top: 0.5rem;
+    min-height: 1.2em;
+    text-align: center;
+  }
+  
+  /* Para ocultar la sección de login si quieres 
+     un modal dentro de index.html (opcional) */
+  .oculto {
+    display: none;
+  }
+  
+  /* ===================================================
+     9. MEDIA QUERIES
+     =================================================== */
+  @media (min-width: 600px) {
+    h1 {
+      font-size: 2.2rem;
+    }
+    .botones button {
+      font-size: 1.2rem;
+    }
+  }
+  
