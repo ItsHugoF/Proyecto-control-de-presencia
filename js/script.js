@@ -10,31 +10,28 @@ const cronometro  = document.getElementById('cronometro');
 
 // Barra inferior
 const btnIzquierda = document.getElementById('btnIzquierda');
-const btnLoginForm = document.getElementById('btnLoginForm'); // ahora ya no hace falta
-const btnDerecha   = document.getElementById('btnDerecha');   // Cerrar sesión
+const btnLoginForm = document.getElementById('btnLoginForm'); 
+const btnDerecha   = document.getElementById('btnDerecha');
 
 // Variables cronómetro
 let tiempoInicioFichado = null;
 let intervaloCronometro = null;
 
 /********************************************
- * 2. AL CARGAR LA PÁGINA
+ * 2. Cuando Carga la Página
  ********************************************/
 document.addEventListener('DOMContentLoaded', () => {
-  // 1) Si NO estás logueado, forzar a login.html
+  //Si NO estás logueado, te redirje al login
   if (!estaLogueado()) {
     window.location.href = 'login.html';
     return;
   }
 
-  // 2) Iniciar reloj
   actualizarReloj();
   setInterval(actualizarReloj, 1000);
 
-  // 3) Icono de conexión
   actualizarIconoConexion();
 
-  // 4) Reanuda cronómetro si estabas fichado
   reanudarCronometroSiFichado();
 });
 
@@ -135,17 +132,21 @@ function setIconoColor(color) {
   statusIcon.classList.add(`icono-${color}`);
 }
 
-function actualizarIconoConexion() {
-  if (!navigator.onLine) {
+function actualizarIconoConexion() 
+{
+  if (!navigator.onLine) 
+  {
     setIconoColor('rojo');
     return;
   }
-  if (!navigator.connection || !navigator.connection.effectiveType) {
+  if (!navigator.connection || !navigator.connection.effectiveType) 
+  {
     setIconoColor('verde');
     return;
   }
   const tipo = navigator.connection.effectiveType;
-  switch (tipo) {
+  switch (tipo) 
+  {
     case '4g':
     case 'wifi':
       setIconoColor('verde');
@@ -164,7 +165,8 @@ function actualizarIconoConexion() {
 }
 window.addEventListener('online', actualizarIconoConexion);
 window.addEventListener('offline', actualizarIconoConexion);
-if (navigator.connection) {
+if (navigator.connection) 
+{
   navigator.connection.addEventListener('change', actualizarIconoConexion);
 }
 
@@ -209,12 +211,10 @@ btnSalir.addEventListener('click', () => {
   mensaje.textContent = "Has salido (pero sigues logueado).";
 });
 
-// Botón izquierda (opcional)
 btnIzquierda.addEventListener('click', () => {
   alert("Opción 1 - Sin funcionalidad");
 });
 
-// Botón derecha = Cerrar Sesión
 btnDerecha.addEventListener('click', () => {
   cerrarSesion();
 });
